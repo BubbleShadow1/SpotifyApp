@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "1097367926092",
+    "project_id": "spotifyflutter-761b9",
+    "storage_bucket": "spotifyflutter-761b9.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1097367926092:android:d541fc519684e63d4e0be9",
+        "android_client_info": {
+          "package_name": "com.application.spotify.spotify"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDJ8VU2LeEIA44j8TV5POSgadTelDJj6Pc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
