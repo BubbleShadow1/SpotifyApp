@@ -20,6 +20,7 @@ dependencies:
   firebase_auth:
   get_it:
   dartz:
+  equatable: ^2.0.5
 
 dev_dependencies:
   flutter_test:
