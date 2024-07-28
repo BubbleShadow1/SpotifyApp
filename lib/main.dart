@@ -4,9 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hydrated_bloc/hydrated_bloc.dart';
 import 'package:path_provider/path_provider.dart';
-import 'package:spotify/Music_Page/presentation/pages/musicpage.dart';
-import 'package:spotify/Splash/presentation/pages/splash.dart';
-import 'package:spotify/choose_mode/bloc/themebackend.dart';
+import 'package:spotify/features/presentation/Splash/pages/splash.dart';
+import 'package:spotify/features/presentation/bloc/themebackend.dart';
 import 'package:spotify/firebase_options.dart';
 import 'core/config/theme/theme.dart';
 
