@@ -4,10 +4,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hydrated_bloc/hydrated_bloc.dart';
 import 'package:path_provider/path_provider.dart';
-import 'package:spotify/features/presentation/Splash/pages/splash.dart';
 import 'package:spotify/features/presentation/bloc/themebackend.dart';
 import 'package:spotify/firebase_options.dart';
 import 'core/config/theme/theme.dart';
+import 'features/presentation/Pages/Splash/pages/splash.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();

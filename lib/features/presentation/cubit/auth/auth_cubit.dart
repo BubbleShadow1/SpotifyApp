@@ -30,6 +30,21 @@ class AuthCubit extends Cubit<AuthState> {
     }
   }
 
+  Future<void> loggedIn() async {
+    try {
+      final uid = await getCurrentUIDUseCase.call();
+      emit(AuthenticatedState(uid: uid));
+    } catch (_) {
+      emit(unAuthenticatedState());
+    }
+  }
 
-  Future<>
+  Future<void> loggedout() async {
+    try {
+      signOutUseCase.call();
+      emit(unAuthenticatedState());
+    } catch (_) {
+      emit(unAuthenticatedState());
+    }
+  }
 }

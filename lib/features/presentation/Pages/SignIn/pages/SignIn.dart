@@ -4,10 +4,10 @@ import 'package:flutter/material.dart';
 import 'package:spotify/core/config/assets/appimages.dart';
 import 'package:spotify/core/config/assets/appvectors.dart';
 import 'package:spotify/core/config/theme/appcolors.dart';
-import 'package:spotify/features/presentation/registersignin/pages/registerSignInPage.dart';
 
 
 import '../../../../../common/basic_app_button.dart';
+import '../../registersignin/pages/registerSignInPage.dart';
 
 class SignIn extends StatefulWidget {
   @override

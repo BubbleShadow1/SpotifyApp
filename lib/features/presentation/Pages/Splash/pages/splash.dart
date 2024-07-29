@@ -2,7 +2,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:spotify/core/config/assets/appvectors.dart';
 import 'package:spotify/core/config/theme/appcolors.dart';
-import 'package:spotify/features/presentation/intro/pages/get_started.dart';
+
+import '../../intro/pages/get_started.dart';
+
 class Splash extends StatefulWidget{
   @override
   Splash({super.key});

@@ -4,10 +4,10 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 
-import '../../../../common/basic_app_button.dart';
-import '../../../../core/config/assets/appimages.dart';
-import '../../../../core/config/assets/appvectors.dart';
-import '../../../../core/config/theme/appcolors.dart';
+import '../../../../../common/basic_app_button.dart';
+import '../../../../../core/config/assets/appimages.dart';
+import '../../../../../core/config/assets/appvectors.dart';
+import '../../../../../core/config/theme/appcolors.dart';
 import '../../registersignin/pages/registerSignInPage.dart';
 
 
@@ -50,11 +50,11 @@ class RegisterState extends State<Register>{
               SizedBox(height: MediaQuery.of(context).size.height/40,),
               Row(mainAxisAlignment: MainAxisAlignment.center,children:[ Center( child:  Text('If You Need Any Support',style:TextStyle(fontSize: MediaQuery.of(context).size.width/30,fontWeight: FontWeight.w500,color: Colors.black),),),TextButton(onPressed: (){}, child: Text('Click Here',style:TextStyle(fontSize: MediaQuery.of(context).size.width/30,fontWeight: FontWeight.w500,color: appcolors.Primarycolor)) ) ],),
               SizedBox(height: MediaQuery.of(context).size.height/30,),
-              Container(height: MediaQuery.of(context).size.height/10,width:MediaQuery.of(context).size.width/1.20 ,decoration: BoxDecoration(image:DecorationImage(fit: BoxFit.fill,image:AssetImage(appimages.rectangle)),),child:Center(child: TextFormField(decoration: InputDecoration(contentPadding: EdgeInsets.only(left: 20),hintText:'Enter Username or Email', border: InputBorder.none, ),),),),
+              Container(height: MediaQuery.of(context).size.height/10,width:MediaQuery.of(context).size.width/1.20 ,decoration: BoxDecoration(image:DecorationImage(fit: BoxFit.fill,image:AssetImage(appimages.rectangle)),),child:Center(child: TextFormField(decoration:const InputDecoration(contentPadding: EdgeInsets.only(left: 20),hintText:'Enter Username or Email', border: InputBorder.none, ),),),),
               SizedBox(height: MediaQuery.of(context).size.height/40,),
-              Container(height: MediaQuery.of(context).size.height/10,width:MediaQuery.of(context).size.width/1.20 ,decoration: BoxDecoration(image:DecorationImage(fit: BoxFit.fill,image:AssetImage(appimages.rectangle)),),child:Center(child: TextFormField(decoration: InputDecoration(contentPadding: EdgeInsets.only(left: 20),hintText:'Enter Email', border: InputBorder.none, ),),),),
+              Container(height: MediaQuery.of(context).size.height/10,width:MediaQuery.of(context).size.width/1.20 ,decoration: BoxDecoration(image:DecorationImage(fit: BoxFit.fill,image:AssetImage(appimages.rectangle)),),child:Center(child: TextFormField(decoration:const InputDecoration(contentPadding: EdgeInsets.only(left: 20),hintText:'Enter Email', border: InputBorder.none, ),),),),
               SizedBox(height: MediaQuery.of(context).size.height/40,),
-              Container(height: MediaQuery.of(context).size.height/10,width:MediaQuery.of(context).size.width/1.20 ,decoration: BoxDecoration(image:DecorationImage(fit: BoxFit.fill,image:AssetImage(appimages.rectangle)),),child:Center(child: TextFormField(decoration: InputDecoration(contentPadding: EdgeInsets.only(left: 20),hintText:'Password', border: InputBorder.none, ),),),),
+              Container(height: MediaQuery.of(context).size.height/10,width:MediaQuery.of(context).size.width/1.20 ,decoration: BoxDecoration(image:DecorationImage(fit: BoxFit.fill,image:AssetImage(appimages.rectangle)),),child:Center(child: TextFormField(decoration:const InputDecoration(contentPadding: EdgeInsets.only(left: 20),hintText:'Password', border: InputBorder.none, ),),),),
               SizedBox(height: MediaQuery.of(context).size.height/40,),
               BasicAppButton('Create Account',(){ Navigator.pushReplacement(context, MaterialPageRoute(builder: (context){ return Register(); })); }, 80),
 
