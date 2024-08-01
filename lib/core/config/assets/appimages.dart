@@ -21,4 +21,10 @@ static String Pausebtn='${basepath}Pause${extension}';
 static String Nextbtn='${basepath}Next${extension}';
 static String Greenellipsebtn='${basepath}Ellipse${extension}';
 static String playerimage='${basepath}playerimage${extension}';
+static String frame='${basepath}frame${extension}';
+static String billieeilish='${basepath}billieeilish${extension}';
+static String search='${basepath}Search${extension}';
+static String billiesmallimage='${basepath}billiesmallimage${extension}';
+static String playbtn='${basepath}Play${extension}';
+static String greybg='${basepath}greybg${extension}';
 }
