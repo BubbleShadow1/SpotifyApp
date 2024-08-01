@@ -29,6 +29,7 @@ class CredentialCubit extends Cubit<CredentialState> {
   Future<void> submitSignIn({required user_entities user}) async {
     try {
       signInUseCase.call(user);
+      emit(CredentialSuccess());
     } on SocketException catch (_) {
       emit(CredentialFailure());
     } catch (_) {
@@ -40,6 +41,7 @@ class CredentialCubit extends Cubit<CredentialState> {
     try {
       await signUpUseCase.call(user);
       await getCreateCurrentUserUseCase.call(user);
+      emit(CredentialSuccess());
     } on SocketException catch (_) {
       emit(CredentialFailure());
     } catch (_) {
@@ -50,6 +52,7 @@ class CredentialCubit extends Cubit<CredentialState> {
   Future<void> SubmitGoogleSignIn({required user_entities user}) async {
     try {
       googleauthusercase.googleAuth();
+      emit(CredentialSuccess());
     } on SocketException catch (_) {
       emit(CredentialFailure());
     } catch (_) {
@@ -60,7 +63,6 @@ class CredentialCubit extends Cubit<CredentialState> {
   Future<void> ForgotPassword({required user_entities user}) async {
     try {
       forgotPasswordUseCase.call(user.email!);
-      
     } on SocketException catch (_) {
       emit(CredentialFailure());
     } catch (_) {
