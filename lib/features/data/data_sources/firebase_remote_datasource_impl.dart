@@ -23,12 +23,12 @@ class FirebaseRemoteDatasourceImpl implements FirebaseRemoteDatasource {
 
   @override
   Future<String> GetCurrentUID() async {
-    return await auth.currentUser!.uid;
+    return auth.currentUser!.uid;
   }
 
   @override
   Future<void> SignIn(user_entities user) async {
-    await auth.signInWithEmailAndPassword(
+  await auth.signInWithEmailAndPassword(
         email: user.email!, password: user.password!);
   }
 
@@ -53,7 +53,7 @@ class FirebaseRemoteDatasourceImpl implements FirebaseRemoteDatasource {
     userCollection.doc(uid).get().then((userDoc) {
       if (!userDoc.exists) {
         final newuser =
-            UserModel(uid: user.uid, email: user.email, password: user.password)
+            UserModel(uid: uid, email: user.email, password: user.password)
                 .toDocument();
 
         if (!userDoc.exists) {

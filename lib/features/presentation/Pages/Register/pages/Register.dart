@@ -212,7 +212,7 @@ class RegisterState extends State<Register> {
 
                 Navigator.pushReplacement(context,
                     MaterialPageRoute(builder: (context) {
-                  return Register();
+                  return HomePage();
                 }));
               }, 80),
             ],

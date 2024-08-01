@@ -27,6 +27,7 @@ class CredentialCubit extends Cubit<CredentialState> {
       : super(CredentialInitial());
 
   Future<void> submitSignIn({required user_entities user}) async {
+    emit(CredentialLoading());
     try {
       signInUseCase.call(user);
       emit(CredentialSuccess());
@@ -38,6 +39,7 @@ class CredentialCubit extends Cubit<CredentialState> {
   }
 
   Future<void> submitSignup({required user_entities user}) async {
+   emit(CredentialLoading());
     try {
       await signUpUseCase.call(user);
       await getCreateCurrentUserUseCase.call(user);

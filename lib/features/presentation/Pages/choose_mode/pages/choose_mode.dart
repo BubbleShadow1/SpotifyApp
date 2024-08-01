@@ -33,7 +33,7 @@ class ChooseModeState extends State<ChooseMode>{
           },child:
           Container(decoration: BoxDecoration(image: DecorationImage(image: AssetImage(appimages.blackellipse),)),padding:const EdgeInsets.only(left: 10,right: 10,top: 30,bottom: 30),child:Padding(padding:const EdgeInsets.all(5),child: SvgPicture.asset(height: 30,width: 30,appvectors.sunvector),),),),
         ],),
-        BasicAppButton('Continue',(){Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>Registersigninpage())); } , 80),
+        BasicAppButton('Continue',(){Navigator.push(context, MaterialPageRoute(builder: (context)=>Registersigninpage())); } , 80),
 
       ],),),
 

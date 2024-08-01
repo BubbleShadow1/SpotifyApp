@@ -13,8 +13,8 @@ import 'features/presentation/Pages/Splash/pages/splash.dart';
 import 'package:spotify/injection_container.dart ' as di;
 
 Future<void> main() async {
+
   WidgetsFlutterBinding.ensureInitialized();
- 
   HydratedBloc.storage = await HydratedStorage.build(
     storageDirectory: kIsWeb
         ? HydratedStorage.webStorageDirectory
@@ -22,6 +22,8 @@ Future<void> main() async {
   );
 
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+
+    await di.init();
   runApp(const MyApp());
 }
 
@@ -31,7 +33,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MultiBlocProvider(
-      providers: [BlocProvider(create: (_) => Themebackend()),
+      providers: [ BlocProvider(create: (_) => Themebackend()),
       BlocProvider(create:(_)=>di.sl<AuthCubit>()..appstarted()),BlocProvider(create: (_)=>di.sl<CredentialCubit>())],
       child: BlocBuilder<Themebackend, ThemeMode>(
         builder: (context, mode) => MaterialApp(

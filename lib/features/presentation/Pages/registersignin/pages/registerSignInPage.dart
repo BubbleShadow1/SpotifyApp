@@ -13,13 +13,16 @@ import '../../SignIn/pages/SignIn.dart';
 import '../../choose_mode/pages/choose_mode.dart';
 
 class Registersigninpage extends StatelessWidget {
+  const Registersigninpage({super.key});
   @override
   Widget build(BuildContext context) {
-    return Scaffold(body: BlocBuilder<AuthCubit,AuthState>(builder: (context, AuthState) {
-      if (AuthState is AuthenticatedState) {
+    return Scaffold(
+        body: BlocBuilder<AuthCubit, AuthState>(builder: (context, authState) {
+      if (authState is AuthenticatedState) {
         return HomePage();
+      } else {
+        return BodyWidget(context);
       }
-      return BodyWidget(context);
     }));
   }
 

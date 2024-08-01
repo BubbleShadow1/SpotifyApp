@@ -185,7 +185,7 @@ class RegisterState extends State<SignIn> {
                 SubmitSignIn();
                 Navigator.pushReplacement(context,
                     MaterialPageRoute(builder: (context) {
-                  return SignIn();
+                  return HomePage();
                 }));
               }, 80),
             ],
