@@ -2,37 +2,132 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:spotify/core/config/assets/appimages.dart';
 import 'package:spotify/core/config/assets/appvectors.dart';
+import 'package:spotify/core/config/theme/appcolors.dart';
+import 'package:spotify/features/presentation/Pages/Discoverypage/Discoverypage.dart';
+import 'package:spotify/features/presentation/Pages/Favouritepage/Favouritepage.dart';
+import 'package:spotify/features/presentation/Pages/Profile/profile.dart';
 
 class HomePage extends StatefulWidget {
+  const HomePage({super.key});
+
   @override
   State<HomePage> createState() {
     return HomePageState();
   }
 }
 
-class HomePageState extends State<HomePage> {
+class HomePageState extends State<HomePage>{
+
+  List<Widget> widgetlist = [
+    const HomePageBody(),
+    const Discoverypage(),
+    const favourite_page(),
+    const Profile()
+  ];
+
+  int selectedindex = 0;
+
+  void ontapindex(int index) {
+    setState(() {
+      selectedindex = index;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Column(
-        children: [
-          CustomToolbar(),
-          space(20),
-          frame(),
-          imageslist(),
-          space(30),
-          Padding(
-              padding: EdgeInsets.only(left: 20, right: 20),
-              child: Stack(
-                children: [
-                  playlisttext(),
-                  seemoretext()
-                ],
-              )),
-              space(30),
-              SingleChildScrollView(child:Column(children: [customlist(),space(20),customlist(),space(20),customlist()],) ,),
-        ],
-      ),
+        body: widgetlist[selectedindex],
+        bottomNavigationBar: bottomnavigationbarwidget());
+  }
+
+  Widget bottomnavigationbarwidget() {
+    return BottomNavigationBar(
+      items: <BottomNavigationBarItem>[
+        BottomNavigationBarItem(
+          label: 'Home',
+          icon: ImageIcon(
+            AssetImage(appvectors.btnv1),
+          ),
+        ),
+        BottomNavigationBarItem(
+            label: 'Discovery', icon: ImageIcon(AssetImage(appvectors.btnv2))),
+        BottomNavigationBarItem(
+            label: 'Favourite', icon: ImageIcon(AssetImage(appvectors.btnv3))),
+        BottomNavigationBarItem(
+          label: 'Profile',
+          icon: ImageIcon(
+            AssetImage(appvectors.btnv4),
+          ),
+        ),
+      ],
+      onTap: ontapindex,
+      currentIndex: selectedindex,
+      selectedItemColor: appcolors.Primarycolor,
+    );
+  }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+class HomePageBody extends StatefulWidget {
+  const HomePageBody({super.key});
+
+  @override
+  State<HomePageBody> createState() {
+    return HomePageBodyState();
+  }
+}
+
+class HomePageBodyState extends State<HomePageBody> with TickerProviderStateMixin{
+  late final TabController _tabcontroller;
+
+  @override
+  void initState() {
+    super.initState();
+    _tabcontroller = TabController(length: 4, vsync: this);
+  }
+
+
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        CustomToolbar(),
+        space(20),
+        _tabbar(),
+        imageslist(),
+        space(30),
+        Padding(
+            padding: const EdgeInsets.only(left: 20, right: 20),
+            child: Stack(
+              children: [playlisttext(), seemoretext()],
+            )),
+        space(30),
+        SingleChildScrollView(
+          child: Column(
+            children: [
+              customlist(),
+              space(20),
+              customlist(),
+              space(20),
+              customlist()
+            ],
+          ),
+        ),
+      ],
     );
   }
 
@@ -82,53 +177,12 @@ class HomePageState extends State<HomePage> {
     );
   }
 
-  Widget frame() {
-    return Container(
-        padding: const EdgeInsets.only(left: 20),
-        height: 50,
-        child: ListView(
-          shrinkWrap: true,
-          scrollDirection: Axis.horizontal,
-          children: [
-            GestureDetector(
-              onTap: () {},
-              child: const Text(
-                'News',
-                style: TextStyle(fontSize: 20, fontWeight: FontWeight.w500),
-              ),
-            ),
-            const SizedBox(
-              width: 40,
-            ),
-            GestureDetector(
-              onTap: () {},
-              child: const Text(
-                'Video',
-                style: TextStyle(fontSize: 20, fontWeight: FontWeight.w500),
-              ),
-            ),
-            const SizedBox(
-              width: 40,
-            ),
-            GestureDetector(
-              onTap: () {},
-              child: const Text(
-                'Artists',
-                style: TextStyle(fontSize: 20, fontWeight: FontWeight.w500),
-              ),
-            ),
-            const SizedBox(
-              width: 40,
-            ),
-            GestureDetector(
-              onTap: () {},
-              child: const Text(
-                'Podcast',
-                style: TextStyle(fontSize: 20, fontWeight: FontWeight.w500),
-              ),
-            )
-          ],
-        ));
+  Widget _tabbar() {
+    return TabBar(
+      labelColor: Theme.of(context).brightness==Brightness.dark ? Colors.white :Colors.black,padding:const EdgeInsets.only(left: 20,right: 20),isScrollable: true,indicatorColor: appcolors.Primarycolor,
+      tabs: const [ Text('News',style: TextStyle(fontWeight: FontWeight.w500,fontSize: 16),),Text('Videos',style: TextStyle(fontWeight: FontWeight.w500,fontSize: 16),),Text('Artists',style: TextStyle(fontWeight: FontWeight.w500,fontSize: 16),),Text('Podcast',style: TextStyle(fontWeight: FontWeight.w500,fontSize: 16),)],
+      controller: _tabcontroller,
+    );
   }
 
   Widget imageslist() {
@@ -140,101 +194,110 @@ class HomePageState extends State<HomePage> {
         children: [
           GestureDetector(
             onTap: () {},
-            child:Column(mainAxisSize: MainAxisSize.max,children: [ Stack(
+            child: Column(
+              mainAxisSize: MainAxisSize.max,
               children: [
-                Container(
-                  width: 150,
-                  height: 180,
-                  decoration: BoxDecoration(
-                    image: DecorationImage(
-                      fit: BoxFit.fill,
-                      image: AssetImage(appimages.billiesmallimage),
+                Stack(
+                  children: [
+                    Container(
+                      width: 150,
+                      height: 180,
+                      decoration: BoxDecoration(
+                        image: DecorationImage(
+                          fit: BoxFit.fill,
+                          image: AssetImage(appimages.billiesmallimage),
+                        ),
+                      ),
                     ),
-                  ),
+                    Positioned(
+                      right: 0,
+                      bottom: 0,
+                      child: Container(
+                        height: 30,
+                        width: 30,
+                        decoration: BoxDecoration(
+                          image: DecorationImage(
+                              fit: BoxFit.contain,
+                              image: AssetImage(appimages.greybg)),
+                        ),
+                        child: Center(child: Image.asset(appimages.playbtn)),
+                      ),
+                    ),
+                  ],
                 ),
-                Positioned(
-                  right: 0,
-                  bottom: 0,
-                  child: Container(
-                    height: 30,
-                    width: 30,
-                    decoration: BoxDecoration(
-                      image: DecorationImage(
-                          fit: BoxFit.contain,
-                          image: AssetImage(appimages.greybg)),
-                    ),
-                    child: Center(child: Image.asset(appimages.playbtn)),
-                  ),
-                ),],),
-                ],),),
-          const SizedBox(
-            width: 20,
-          ),
-       GestureDetector(
-            onTap: () {},
-            child:Column(children: [ Stack(
-              children: [
-                Container(
-                  width: 150,
-                  height: 180,
-                  decoration: BoxDecoration(
-                    image: DecorationImage(
-                      fit: BoxFit.fill,
-                      image: AssetImage(appimages.billiesmallimage),
-                    ),
-                  ),
-                ),
-                Positioned(
-                  right: 0,
-                  bottom: 0,
-                  child: Container(
-                    height: 30,
-                    width: 30,
-                    decoration: BoxDecoration(
-                      image: DecorationImage(
-                          fit: BoxFit.contain,
-                          image: AssetImage(appimages.greybg)),
-                    ),
-                    child: Center(child: Image.asset(appimages.playbtn)),
-                  ),
-                )
               ],
-            ),])
+            ),
           ),
           const SizedBox(
             width: 20,
           ),
-        GestureDetector(
-            onTap: () {},
-            child:Column(children: [ Stack(
-              children: [
-                Container(
-                  width: 150,
-                  height: 180,
-                  decoration: BoxDecoration(
-                    image: DecorationImage(
-                      fit: BoxFit.fill,
-                      image: AssetImage(appimages.billiesmallimage),
+          GestureDetector(
+              onTap: () {},
+              child: Column(children: [
+                Stack(
+                  children: [
+                    Container(
+                      width: 150,
+                      height: 180,
+                      decoration: BoxDecoration(
+                        image: DecorationImage(
+                          fit: BoxFit.fill,
+                          image: AssetImage(appimages.billiesmallimage),
+                        ),
+                      ),
                     ),
-                  ),
+                    Positioned(
+                      right: 0,
+                      bottom: 0,
+                      child: Container(
+                        height: 30,
+                        width: 30,
+                        decoration: BoxDecoration(
+                          image: DecorationImage(
+                              fit: BoxFit.contain,
+                              image: AssetImage(appimages.greybg)),
+                        ),
+                        child: Center(child: Image.asset(appimages.playbtn)),
+                      ),
+                    )
+                  ],
                 ),
-                Positioned(
-                  right: 0,
-                  bottom: 0,
-                  child: Container(
-                    height: 30,
-                    width: 30,
-                    decoration: BoxDecoration(
-                      image: DecorationImage(
-                          fit: BoxFit.contain,
-                          image: AssetImage(appimages.greybg)),
-                    ),
-                    child: Center(child: Image.asset(appimages.playbtn)),
-                  ),
-                )
-              ],
-            ),])
+              ])),
+          const SizedBox(
+            width: 20,
           ),
+          GestureDetector(
+              onTap: () {},
+              child: Column(children: [
+                Stack(
+                  children: [
+                    Container(
+                      width: 150,
+                      height: 180,
+                      decoration: BoxDecoration(
+                        image: DecorationImage(
+                          fit: BoxFit.fill,
+                          image: AssetImage(appimages.billiesmallimage),
+                        ),
+                      ),
+                    ),
+                    Positioned(
+                      right: 0,
+                      bottom: 0,
+                      child: Container(
+                        height: 30,
+                        width: 30,
+                        decoration: BoxDecoration(
+                          image: DecorationImage(
+                              fit: BoxFit.contain,
+                              image: AssetImage(appimages.greybg)),
+                        ),
+                        child: Center(child: Image.asset(appimages.playbtn)),
+                      ),
+                    )
+                  ],
+                ),
+              ])),
         ],
       ),
     );
@@ -264,17 +327,38 @@ class HomePageState extends State<HomePage> {
     );
   }
 
-  Widget customlist(){
-    return Row(children: [SizedBox(width: 20,),Container(
-                    height: 40,
-                    width: 40,
-                    decoration: BoxDecoration(
-                      image: DecorationImage(
-                          fit: BoxFit.contain,
-                          image: AssetImage(appimages.greybg)),
-                    ),
-                    child: Center(child: Image.asset(appimages.playbtn)),
-                  ),SizedBox(width: 20,),Column(children: [Textheading('As it was', 18, FontWeight.bold),Textheading('Harry styles', 15, FontWeight.w400)],) ,SizedBox(width:MediaQuery.of(context).size.width/5),Textheading('5:22', 20, FontWeight.w300),SizedBox(width: MediaQuery.of(context).size.width/7),Align(alignment: Alignment.centerRight,child:SvgPicture.asset(appvectors.heart),)],);
+  Widget customlist() {
+    return Row(
+      children: [
+        const SizedBox(
+          width: 20,
+        ),
+        Container(
+          height: 40,
+          width: 40,
+          decoration: BoxDecoration(
+            image: DecorationImage(
+                fit: BoxFit.contain, image: AssetImage(appimages.greybg)),
+          ),
+          child: Center(child: Image.asset(appimages.playbtn)),
+        ),
+        const SizedBox(
+          width: 20,
+        ),
+        Column(
+          children: [
+            Textheading('As it was', 18, FontWeight.bold),
+            Textheading('Harry styles', 15, FontWeight.w400)
+          ],
+        ),
+        SizedBox(width: MediaQuery.of(context).size.width / 5),
+        Textheading('5:22', 20, FontWeight.w300),
+        SizedBox(width: MediaQuery.of(context).size.width / 7),
+        Align(
+          alignment: Alignment.centerRight,
+          child: SvgPicture.asset(appvectors.heart),
+        )
+      ],
+    );
   }
 }
-
