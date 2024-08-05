@@ -5,6 +5,7 @@ import 'package:spotify/core/config/assets/appvectors.dart';
 import 'package:spotify/core/config/theme/appcolors.dart';
 import 'package:spotify/features/presentation/Pages/Discoverypage/Discoverypage.dart';
 import 'package:spotify/features/presentation/Pages/Favouritepage/Favouritepage.dart';
+import 'package:spotify/features/presentation/Pages/Home_page/widget/newsongs.dart';
 import 'package:spotify/features/presentation/Pages/Profile/profile.dart';
 
 class HomePage extends StatefulWidget {
@@ -16,8 +17,7 @@ class HomePage extends StatefulWidget {
   }
 }
 
-class HomePageState extends State<HomePage>{
-
+class HomePageState extends State<HomePage> {
   List<Widget> widgetlist = [
     const HomePageBody(),
     const Discoverypage(),
@@ -45,19 +45,15 @@ class HomePageState extends State<HomePage>{
       items: <BottomNavigationBarItem>[
         BottomNavigationBarItem(
           label: 'Home',
-          icon: ImageIcon(
-            AssetImage(appvectors.btnv1),
-          ),
+          icon: SvgPicture.asset(appvectors.btnv1),
         ),
         BottomNavigationBarItem(
-            label: 'Discovery', icon: ImageIcon(AssetImage(appvectors.btnv2))),
+            label: 'Discovery', icon: SvgPicture.asset(appvectors.btnv2)),
         BottomNavigationBarItem(
-            label: 'Favourite', icon: ImageIcon(AssetImage(appvectors.btnv3))),
+            label: 'Favourite', icon: SvgPicture.asset(appvectors.btnv3)),
         BottomNavigationBarItem(
           label: 'Profile',
-          icon: ImageIcon(
-            AssetImage(appvectors.btnv4),
-          ),
+          icon: SvgPicture.asset(appvectors.btnv4),
         ),
       ],
       onTap: ontapindex,
@@ -66,20 +62,6 @@ class HomePageState extends State<HomePage>{
     );
   }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 class HomePageBody extends StatefulWidget {
   const HomePageBody({super.key});
@@ -90,7 +72,8 @@ class HomePageBody extends StatefulWidget {
   }
 }
 
-class HomePageBodyState extends State<HomePageBody> with TickerProviderStateMixin{
+class HomePageBodyState extends State<HomePageBody>
+    with TickerProviderStateMixin {
   late final TabController _tabcontroller;
 
   @override
@@ -99,8 +82,6 @@ class HomePageBodyState extends State<HomePageBody> with TickerProviderStateMixi
     _tabcontroller = TabController(length: 4, vsync: this);
   }
 
-
-
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -108,25 +89,9 @@ class HomePageBodyState extends State<HomePageBody> with TickerProviderStateMixi
         CustomToolbar(),
         space(20),
         _tabbar(),
-        imageslist(),
-        space(30),
-        Padding(
-            padding: const EdgeInsets.only(left: 20, right: 20),
-            child: Stack(
-              children: [playlisttext(), seemoretext()],
-            )),
-        space(30),
-        SingleChildScrollView(
-          child: Column(
-            children: [
-              customlist(),
-              space(20),
-              customlist(),
-              space(20),
-              customlist()
-            ],
-          ),
-        ),
+         space(20),
+         _tabbarview(),
+    
       ],
     );
   }
@@ -179,10 +144,57 @@ class HomePageBodyState extends State<HomePageBody> with TickerProviderStateMixi
 
   Widget _tabbar() {
     return TabBar(
-      labelColor: Theme.of(context).brightness==Brightness.dark ? Colors.white :Colors.black,padding:const EdgeInsets.only(left: 20,right: 20),isScrollable: true,indicatorColor: appcolors.Primarycolor,
-      tabs: const [ Text('News',style: TextStyle(fontWeight: FontWeight.w500,fontSize: 16),),Text('Videos',style: TextStyle(fontWeight: FontWeight.w500,fontSize: 16),),Text('Artists',style: TextStyle(fontWeight: FontWeight.w500,fontSize: 16),),Text('Podcast',style: TextStyle(fontWeight: FontWeight.w500,fontSize: 16),)],
+      labelColor: Theme.of(context).brightness == Brightness.dark
+          ? Colors.white
+          : Colors.black,
+      padding: const EdgeInsets.only(left: 20, right: 20),
+      isScrollable: true,
+      tabAlignment: TabAlignment.start,
+      indicatorColor: appcolors.Primarycolor,
+      tabs: const [
+        Text(
+          'News',
+          style: TextStyle(fontWeight: FontWeight.w500, fontSize: 20),
+        ),
+        Text(
+          'Videos',
+          style: TextStyle(fontWeight: FontWeight.w500, fontSize: 20),
+        ),
+        Text(
+          'Artists',
+          style: TextStyle(fontWeight: FontWeight.w500, fontSize: 20),
+        ),
+        Text(
+          'Podcast',
+          style: TextStyle(fontWeight: FontWeight.w500, fontSize: 20),
+        )
+      ],
       controller: _tabcontroller,
     );
+  }
+
+  Widget _tabbarview() {
+    return SizedBox(height: 500,child: TabBarView(controller: _tabcontroller,children: [
+Expanded(child: Column(children: [ const Newsongs(),
+        space(30),
+        Padding(
+            padding: const EdgeInsets.only(left: 20, right: 20),
+            child: Stack(
+              children: [playlisttext(), seemoretext()],
+            )),
+        space(30),
+        SingleChildScrollView(
+          child: Column(
+            children: [
+              customlist(),
+              space(20),
+              customlist(),
+              space(20),
+              customlist()
+            ],
+          ),
+        ),],),),const Center(child: Text('Videos'),),const  Center(child: Text('Artists'),),const Center(child: Text('Podcast'),),
+    ]));
   }
 
   Widget imageslist() {

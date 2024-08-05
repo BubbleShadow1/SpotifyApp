@@ -22,6 +22,7 @@ dependencies:
   dartz:
   equatable: ^2.0.5
   cloud_firestore:
+  firebase_storage: 
   google_sign_in:
 
 

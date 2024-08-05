@@ -4,11 +4,16 @@ import 'package:get_it/get_it.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:spotify/features/data/data_sources/firebase_remote_datasource.dart';
 import 'package:spotify/features/data/data_sources/firebase_remote_datasource_impl.dart';
+import 'package:spotify/features/data/data_sources/songs/song_remotedatasource.dart';
+import 'package:spotify/features/data/data_sources/songs/song_remotedatasource_impl.dart';
 import 'package:spotify/features/data/repository/firebase_repo_impl.dart';
+import 'package:spotify/features/data/repository/song/song_repo_impl.dart';
 import 'package:spotify/features/domain/repository/auth/auth_repo.dart';
+import 'package:spotify/features/domain/repository/songs/song_repo.dart';
 import 'package:spotify/features/domain/usecases/forgot_password_usecase.dart';
 import 'package:spotify/features/domain/usecases/get_create_current_user_usecase.dart';
 import 'package:spotify/features/domain/usecases/get_current_uid_usecase.dart';
+import 'package:spotify/features/domain/usecases/get_new_songs.dart';
 import 'package:spotify/features/domain/usecases/googleauthusercase.dart';
 import 'package:spotify/features/domain/usecases/is_sign_in_usecase.dart';
 import 'package:spotify/features/domain/usecases/sign_in_usecase.dart';
@@ -17,6 +22,7 @@ import 'package:spotify/features/domain/usecases/sign_up_usecase.dart';
 import 'package:spotify/features/presentation/Pages/SignIn/pages/SignIn.dart';
 import 'package:spotify/features/presentation/credential/credential_cubit.dart';
 import 'package:spotify/features/presentation/cubit/auth/auth_cubit.dart';
+import 'package:spotify/features/presentation/cubit/new_songs/newsongs_cubit.dart';
 
 final sl = GetIt.instance;
 
@@ -37,10 +43,18 @@ Future<void> init() async {
         getCreateCurrentUserUseCase: sl.call(),
       ));
 
+
+  sl.registerLazySingleton<NewsongsCubit>(
+      () => NewsongsCubit());
+
+
 //usecases
+  sl.registerLazySingleton<GetNewSongsusecase>(() => GetNewSongsusecase(songRepo: sl.call()));
+
   sl.registerLazySingleton<GetCurrentUIDUseCase>(
       () => GetCurrentUIDUseCase(repository: sl.call()));
-  sl.registerLazySingleton<SignUpUseCase>(() => SignUpUseCase(repository: sl.call()));
+  sl.registerLazySingleton<SignUpUseCase>(
+      () => SignUpUseCase(repository: sl.call()));
 
   sl.registerLazySingleton<IsSignInUseCase>(
       () => IsSignInUseCase(repository: sl.call()));
@@ -63,9 +77,15 @@ Future<void> init() async {
   sl.registerLazySingleton<AuthRepository>(
       () => FirebaseRepoImpl(remoteDatasource: sl.call()));
 
+  sl.registerLazySingleton<SongRepo>(
+      () => SongRepoImpl(songRemotedatasource: sl.call()));
+
   sl.registerLazySingleton<FirebaseRemoteDatasource>(() =>
       FirebaseRemoteDatasourceImpl(
           auth: sl.call(), firestore: sl.call(), googleSignIn: sl.call()));
+
+  sl.registerLazySingleton<SongRemotedatasource>(
+      () => SongRemotedatasourceImpl(firebaseFirestore: sl.call()));
 
 //external
   final auth = FirebaseAuth.instance;

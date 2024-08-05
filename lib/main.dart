@@ -7,6 +7,7 @@ import 'package:path_provider/path_provider.dart';
 import 'package:spotify/features/presentation/bloc/themebackend.dart';
 import 'package:spotify/features/presentation/credential/credential_cubit.dart';
 import 'package:spotify/features/presentation/cubit/auth/auth_cubit.dart';
+import 'package:spotify/features/presentation/cubit/new_songs/newsongs_cubit.dart';
 import 'package:spotify/firebase_options.dart';
 import 'core/config/theme/theme.dart';
 import 'features/presentation/Pages/Splash/pages/splash.dart';
@@ -34,7 +35,8 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiBlocProvider(
       providers: [ BlocProvider(create: (_) => Themebackend()),
-      BlocProvider(create:(_)=>di.sl<AuthCubit>()..appstarted()),BlocProvider(create: (_)=>di.sl<CredentialCubit>())],
+      BlocProvider(create:(_)=>di.sl<AuthCubit>()..appstarted()),BlocProvider(create: (_)=>di.sl<CredentialCubit>()),
+      BlocProvider(create: (_)=>di.sl<NewsongsCubit>())],
       child: BlocBuilder<Themebackend, ThemeMode>(
         builder: (context, mode) => MaterialApp(
           theme: Themesname.lightTheme,

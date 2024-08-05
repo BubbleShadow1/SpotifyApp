@@ -197,11 +197,11 @@ class RegisterState extends State<SignIn> {
 
   void SubmitSignIn() {
     if (_email.text.isEmpty) {
-      SnackBar(content: Text('email is empty'));
+      const SnackBar(content: Text('email is empty'));
       return;
     }
-  if (_password.text.isEmpty) {
-      SnackBar(content: Text('password is empty'));
+    if (_password.text.isEmpty) {
+      const SnackBar(content: Text('password is empty'));
       return;
     }
     BlocProvider.of<CredentialCubit>(context).submitSignIn(
