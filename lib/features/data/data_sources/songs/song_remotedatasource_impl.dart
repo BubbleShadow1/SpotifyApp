@@ -13,7 +13,7 @@ Future<List<SongEntities>> getnewsongs() async {
     var data = await FirebaseFirestore.instance
         .collection('songs')
         .orderBy('releasedate', descending: true)
-        .limit(3)
+        .limit(6)
         .get();
 
     for (var element in data.docs) {
@@ -27,4 +27,26 @@ Future<List<SongEntities>> getnewsongs() async {
     return []; // Return an empty list on error
   }
 }
+
+  @override
+  Future<List<SongEntities>> getsongsPlaylist() async {
+ List<SongEntities> songs = [];
+  try {
+    var data = await FirebaseFirestore.instance
+        .collection('songs')
+        .orderBy('releasedate', descending: true)
+        .limit(6)
+        .get();
+
+    for (var element in data.docs) {
+      var songModel = SongModel.fromJson(element.data());
+      SongEntities songEntity = SongModel.toEntity(songModel);
+      songs.add(songEntity);
+    }
+    return songs;
+  } catch (e) {
+    print("An error occured: $e"); // More specific error logging
+    return []; // Return an empty list on error
+  }
+  }
 }

@@ -10,6 +10,7 @@ import 'package:spotify/features/data/repository/firebase_repo_impl.dart';
 import 'package:spotify/features/data/repository/song/song_repo_impl.dart';
 import 'package:spotify/features/domain/repository/auth/auth_repo.dart';
 import 'package:spotify/features/domain/repository/songs/song_repo.dart';
+import 'package:spotify/features/domain/usecases/Playlist/get_songs_playlist.dart';
 import 'package:spotify/features/domain/usecases/forgot_password_usecase.dart';
 import 'package:spotify/features/domain/usecases/get_create_current_user_usecase.dart';
 import 'package:spotify/features/domain/usecases/get_current_uid_usecase.dart';
@@ -23,6 +24,7 @@ import 'package:spotify/features/presentation/Pages/SignIn/pages/SignIn.dart';
 import 'package:spotify/features/presentation/credential/credential_cubit.dart';
 import 'package:spotify/features/presentation/cubit/auth/auth_cubit.dart';
 import 'package:spotify/features/presentation/cubit/new_songs/newsongs_cubit.dart';
+import 'package:spotify/features/presentation/cubit/playlist/playlist_cubit.dart';
 
 final sl = GetIt.instance;
 
@@ -43,13 +45,14 @@ Future<void> init() async {
         getCreateCurrentUserUseCase: sl.call(),
       ));
 
+  sl.registerLazySingleton<NewsongsCubit>(() => NewsongsCubit());
 
-  sl.registerLazySingleton<NewsongsCubit>(
-      () => NewsongsCubit());
-
-
+  sl.registerLazySingleton<PlaylistCubit>(() => PlaylistCubit());
 //usecases
-  sl.registerLazySingleton<GetNewSongsusecase>(() => GetNewSongsusecase(songRepo: sl.call()));
+  sl.registerLazySingleton<GetSongsPlaylistUsecase>(
+      () => GetSongsPlaylistUsecase(songRepo: sl.call()));
+  sl.registerLazySingleton<GetNewSongsusecase>(
+      () => GetNewSongsusecase(songRepo: sl.call()));
 
   sl.registerLazySingleton<GetCurrentUIDUseCase>(
       () => GetCurrentUIDUseCase(repository: sl.call()));

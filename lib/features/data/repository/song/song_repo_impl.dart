@@ -12,4 +12,9 @@ class SongRepoImpl implements SongRepo {
   Future<List<SongEntities>> getNewsongs() async {
     return songRemotedatasource.getnewsongs();
   }
+
+  @override
+  Future<List<SongEntities>> getsongsPlaylist() {
+    return songRemotedatasource.getsongsPlaylist();
+  }
 }

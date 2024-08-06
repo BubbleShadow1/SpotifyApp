@@ -3,6 +3,7 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:spotify/common/constant/image_url.dart';
 import 'package:spotify/core/config/assets/appimages.dart';
+import 'package:spotify/core/config/theme/appcolors.dart';
 import 'package:spotify/features/presentation/cubit/new_songs/newsongs_cubit.dart';
 
 import '../../../../domain/entities/song_entities.dart';
@@ -31,24 +32,37 @@ class Newsongs extends StatelessWidget {
   }
 
   Widget _songs(List<SongEntities> songs) {
-    return ListView.separated(
+    return Expanded( child:  ListView.separated(
         scrollDirection: Axis.horizontal,
         itemBuilder: (context, index) {
-          return Column(
+          return Padding(padding:EdgeInsets.only(left: 10) ,child:  Column(crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Container(
-                decoration: BoxDecoration(
-                    image:DecorationImage(image: NetworkImage(
-                      '${ImageUrl.firestorage}${songs[index].artist}-${songs[index].title}.jpg${ImageUrl.altmedia}')),),
-              )
+              Expanded(
+                   child:Stack(children: [ Image.network(fit: BoxFit.cover,'${ImageUrl.firestorage}${songs[index].artist}-${songs[index].title}.jpg${ImageUrl.altmedia}'),   
+                    Positioned(
+                      right: 0,
+                      bottom: 0,
+                      child: Container(
+                        height: 40,
+                        width: 40,
+                        decoration: BoxDecoration(shape: BoxShape.circle,color:Theme.of(context).brightness==Brightness.light ? appcolors.greycolor:appcolors.secondarycolor, 
+                        ),child: Image.asset(appimages.playbtn,color:Theme.of(context).brightness==Brightness.light ? const Color.fromARGB(255, 228, 228, 228):appcolors.greycolor ,),))
+                   
+                   ])),
+                     const SizedBox(height: 10,),
+                   Text(songs[index].title,style: const TextStyle(fontSize: 16,fontWeight: FontWeight.w600),),
+                   const SizedBox(height: 5,),
+                   Text(songs[index].artist,style: const TextStyle(fontSize: 12,fontWeight: FontWeight.w400),),
+
+              
             ],
-          );
+          ));
           print('Complete URL: ${ImageUrl.firestorage}${songs[index].artist}-${songs[index].title}.jpg${ImageUrl.altmedia}');  
         },
         separatorBuilder: (context, index) => const SizedBox(
               width: 14,
             ),
-        itemCount: songs.length);
+        itemCount: songs.length));
       
   }
 }

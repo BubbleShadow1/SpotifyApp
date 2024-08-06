@@ -6,6 +6,7 @@ import 'package:spotify/core/config/theme/appcolors.dart';
 import 'package:spotify/features/presentation/Pages/Discoverypage/Discoverypage.dart';
 import 'package:spotify/features/presentation/Pages/Favouritepage/Favouritepage.dart';
 import 'package:spotify/features/presentation/Pages/Home_page/widget/newsongs.dart';
+import 'package:spotify/features/presentation/Pages/Home_page/widget/play_list.dart';
 import 'package:spotify/features/presentation/Pages/Profile/profile.dart';
 
 class HomePage extends StatefulWidget {
@@ -174,26 +175,17 @@ class HomePageBodyState extends State<HomePageBody>
   }
 
   Widget _tabbarview() {
-    return SizedBox(height: 500,child: TabBarView(controller: _tabcontroller,children: [
-Expanded(child: Column(children: [ const Newsongs(),
-        space(30),
+    return Expanded(child: TabBarView(controller: _tabcontroller,children: [
+Expanded(child: Column(mainAxisSize: MainAxisSize.min,children: [ const Newsongs(),space(30),
         Padding(
             padding: const EdgeInsets.only(left: 20, right: 20),
             child: Stack(
               children: [playlisttext(), seemoretext()],
             )),
-        space(30),
-        SingleChildScrollView(
-          child: Column(
-            children: [
-              customlist(),
-              space(20),
-              customlist(),
-              space(20),
-              customlist()
-            ],
-          ),
-        ),],),),const Center(child: Text('Videos'),),const  Center(child: Text('Artists'),),const Center(child: Text('Podcast'),),
+          PlayList()
+        ],
+        ),
+        ),const Center(child: Text('Videos'),),const  Center(child: Text('Artists'),),const Center(child: Text('Podcast'),),
     ]));
   }
 
@@ -339,38 +331,5 @@ Expanded(child: Column(children: [ const Newsongs(),
     );
   }
 
-  Widget customlist() {
-    return Row(
-      children: [
-        const SizedBox(
-          width: 20,
-        ),
-        Container(
-          height: 40,
-          width: 40,
-          decoration: BoxDecoration(
-            image: DecorationImage(
-                fit: BoxFit.contain, image: AssetImage(appimages.greybg)),
-          ),
-          child: Center(child: Image.asset(appimages.playbtn)),
-        ),
-        const SizedBox(
-          width: 20,
-        ),
-        Column(
-          children: [
-            Textheading('As it was', 18, FontWeight.bold),
-            Textheading('Harry styles', 15, FontWeight.w400)
-          ],
-        ),
-        SizedBox(width: MediaQuery.of(context).size.width / 5),
-        Textheading('5:22', 20, FontWeight.w300),
-        SizedBox(width: MediaQuery.of(context).size.width / 7),
-        Align(
-          alignment: Alignment.centerRight,
-          child: SvgPicture.asset(appvectors.heart),
-        )
-      ],
-    );
-  }
+  
 }
