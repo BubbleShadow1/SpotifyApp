@@ -51,6 +51,7 @@ Future<void> init() async {
 //usecases
   sl.registerLazySingleton<GetSongsPlaylistUsecase>(
       () => GetSongsPlaylistUsecase(songRepo: sl.call()));
+
   sl.registerLazySingleton<GetNewSongsusecase>(
       () => GetNewSongsusecase(songRepo: sl.call()));
 

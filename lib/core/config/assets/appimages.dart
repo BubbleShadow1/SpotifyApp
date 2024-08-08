@@ -27,4 +27,8 @@ static String search='${basepath}Search${extension}';
 static String billiesmallimage='${basepath}billiesmallimage${extension}';
 static String playbtn='${basepath}Play${extension}';
 static String greybg='${basepath}greybg${extension}';
+static String profilepic='${basepath}profilepic${extension}';
+static String ellipseprofile='${basepath}ellipseprofile${extension}';
+
+
 }

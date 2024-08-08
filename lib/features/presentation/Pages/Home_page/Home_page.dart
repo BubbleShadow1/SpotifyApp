@@ -7,7 +7,7 @@ import 'package:spotify/features/presentation/Pages/Discoverypage/Discoverypage.
 import 'package:spotify/features/presentation/Pages/Favouritepage/Favouritepage.dart';
 import 'package:spotify/features/presentation/Pages/Home_page/widget/newsongs.dart';
 import 'package:spotify/features/presentation/Pages/Home_page/widget/play_list.dart';
-import 'package:spotify/features/presentation/Pages/Profile/profile.dart';
+import 'package:spotify/features/presentation/Pages/profile_page/profile_page.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -22,8 +22,8 @@ class HomePageState extends State<HomePage> {
   List<Widget> widgetlist = [
     const HomePageBody(),
     const Discoverypage(),
-    const favourite_page(),
-    const Profile()
+    const Discoverypage(),
+    const ProfilePage()
   ];
 
   int selectedindex = 0;

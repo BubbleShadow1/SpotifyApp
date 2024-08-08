@@ -24,6 +24,7 @@ dependencies:
   cloud_firestore:
   firebase_storage: 
   google_sign_in:
+  just_audio:
 
 
 dev_dependencies:
@@ -77,6 +78,8 @@ flutter:
     - assets/vectors/Home.svg
     - assets/vectors/Profile.svg
     - assets/vectors/Heart2.svg
+    - assets/images/ellipseprofile.png
+    - assets/images/profilepic.png
 
     
 
@@ -97,5 +100,6 @@ flutter:
           weight: 500
         - asset: assets/fonts/Satoshi-Regular.otf
           weight: 400
+        
 
 
