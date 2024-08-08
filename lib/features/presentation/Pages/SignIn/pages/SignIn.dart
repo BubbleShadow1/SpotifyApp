@@ -24,8 +24,8 @@ class RegisterState extends State<SignIn> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        body: BlocConsumer<CredentialCubit, CredentialState>(
+    return  Scaffold(resizeToAvoidBottomInset: true,
+        body:SingleChildScrollView(child:  BlocConsumer<CredentialCubit, CredentialState>(
             builder: (context, credentialState) {
       if (credentialState is CredentialLoading) {
         return const CircularProgressIndicator();
@@ -46,7 +46,7 @@ class RegisterState extends State<SignIn> {
         const SnackBar(content: Text('Invalid Email Password'));
         print('Invalid Email Password');
       }
-    }));
+    })));
   }
 
   Widget bodyWidget() {
@@ -81,7 +81,7 @@ class RegisterState extends State<SignIn> {
           child: Column(
             children: [
               SizedBox(
-                height: MediaQuery.of(context).size.height / 5,
+                height: MediaQuery.of(context).size.height / 6,
               ),
               Center(
                 child: Text(
@@ -144,7 +144,7 @@ class RegisterState extends State<SignIn> {
                 height: MediaQuery.of(context).size.height / 10,
                 width: MediaQuery.of(context).size.width / 1.20,
                 decoration: BoxDecoration(
-                  image: DecorationImage(
+                  image: DecorationImage( 
                       fit: BoxFit.fill, image: AssetImage(appimages.rectangle)),
                 ),
                 child: Center(
@@ -184,7 +184,7 @@ class RegisterState extends State<SignIn> {
                 SubmitSignIn();
                 Navigator.pushReplacement(context,
                     MaterialPageRoute(builder: (context) {
-                  return HomePage();
+                  return HomePage(); 
                 }));
               }, 80),
             ],

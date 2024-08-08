@@ -56,12 +56,13 @@ class Newsongs extends StatelessWidget {
               
             ],
           ));
-          print('Complete URL: ${ImageUrl.firestorage}${songs[index].artist}-${songs[index].title}.jpg${ImageUrl.altmedia}');  
+          print('Complete URL: ${ImageUrl.firestorage}${songs[index].artist}-${songs[index].title}.jpg${ImageUrl.altmedia}');
+
         },
         separatorBuilder: (context, index) => const SizedBox(
               width: 14,
             ),
-        itemCount: songs.length));
+        itemCount: songs.length),);
       
   }
 }

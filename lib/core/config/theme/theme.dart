@@ -6,5 +6,5 @@ class Themesname {
 
 
 
-  static ThemeData darkTheme=ThemeData(fontFamily: 'Satoshi',primarySwatch: Colors.green,primaryColor: appcolors.Primarycolor,brightness: Brightness.dark,scaffoldBackgroundColor: appcolors.darkbackground,textTheme:const TextTheme(bodyLarge: TextStyle(color: appcolors.secondarycolor)));
+  static ThemeData darkTheme=ThemeData(fontFamily: 'Satoshi',primarySwatch: Colors.green,primaryColor: appcolors.Primarycolor,brightness: Brightness.dark,scaffoldBackgroundColor: appcolors.darkbackground,textTheme:const TextTheme(bodyMedium:TextStyle(color: appcolors.secondarycolor),bodySmall: TextStyle(color: appcolors.secondarycolor) ,bodyLarge: TextStyle(color: appcolors.secondarycolor)));
 }

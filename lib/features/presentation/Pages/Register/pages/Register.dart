@@ -28,8 +28,8 @@ class RegisterState extends State<Register> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        body: BlocConsumer<CredentialCubit, CredentialState>(
+    return Scaffold(resizeToAvoidBottomInset: true,
+        body:SingleChildScrollView(child:  BlocConsumer<CredentialCubit, CredentialState>(
             builder: (context, CredentialState) {
       if (CredentialState is CredentialLoading) {
         return CircularProgressIndicator();
@@ -48,10 +48,10 @@ class RegisterState extends State<Register> {
       if (CredentialState is CredentialSuccess) {
         BlocProvider.of<AuthCubit>(context).loggedIn();
       } else if (CredentialState is CredentialFailure) {
-        SnackBar(content: Text('Invalid Email Password'));
+       const SnackBar(content: Text('Invalid Email Password'));
         print('Invalid Email Password');
       }
-    }));
+    })));
   }
 
   void submitSignup() {
