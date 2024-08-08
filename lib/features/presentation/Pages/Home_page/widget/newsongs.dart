@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:spotify/common/constant/image_url.dart';
 import 'package:spotify/core/config/assets/appimages.dart';
@@ -26,7 +25,7 @@ class Newsongs extends StatelessWidget {
           }
 
           return Container(
-            child: Text('Nothing state happened'),
+            child:const Text('Nothing state happened'),
           );
         })));
   }
@@ -35,7 +34,7 @@ class Newsongs extends StatelessWidget {
     return Expanded( child:  ListView.separated(
         scrollDirection: Axis.horizontal,
         itemBuilder: (context, index) {
-          return Padding(padding:EdgeInsets.only(left: 10) ,child:  Column(crossAxisAlignment: CrossAxisAlignment.start,
+          return Padding(padding:const EdgeInsets.only(left: 10) ,child:  Column(crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Expanded(
                    child:Stack(children: [ Image.network(fit: BoxFit.cover,'${ImageUrl.firestorage}${songs[index].artist}-${songs[index].title}.jpg${ImageUrl.altmedia}'),   

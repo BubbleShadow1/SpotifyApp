@@ -22,7 +22,7 @@ class HomePageState extends State<HomePage> {
   List<Widget> widgetlist = [
     const HomePageBody(),
     const Discoverypage(),
-    const Discoverypage(),
+   const favourite_page(),
     const ProfilePage()
   ];
 
