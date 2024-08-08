@@ -1,5 +1,3 @@
-
-
 import 'package:spotify/features/data/data_sources/firebase_remote_datasource.dart';
 import 'package:spotify/features/domain/entities/user_entities.dart';
 import 'package:spotify/features/domain/repository/auth/auth_repo.dart';
@@ -52,5 +50,10 @@ class FirebaseRepoImpl implements AuthRepository {
   @override
   Future<bool> isSigIn() {
     return remoteDatasource.isSigIn();
+  }
+
+  @override
+  Future<user_entities> getUserdatafirebasedatabase() {
+    return remoteDatasource.getUserdatafirebasedatabase();
   }
 }

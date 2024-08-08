@@ -1,11 +1,8 @@
-  import 'package:dartz/dartz.dart';
+import 'package:dartz/dartz.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:spotify/features/domain/entities/user_entities.dart';
 
-
-
-abstract class FirebaseRemoteDatasource{
-
+abstract class FirebaseRemoteDatasource {
   Future<void> SignIn(user_entities user);
   Future<void> SignUp(user_entities user);
   Future<void> SignOut();
@@ -14,6 +11,6 @@ abstract class FirebaseRemoteDatasource{
   Future<void> googleAuth();
   Future<void> getUpdateuser(user_entities user);
   Future<void> getcreatecurrentuser(user_entities user);
-   Future<String> GetCurrentUID();
-
+  Future<String> GetCurrentUID();
+  Future<user_entities> getUserdatafirebasedatabase();
 }

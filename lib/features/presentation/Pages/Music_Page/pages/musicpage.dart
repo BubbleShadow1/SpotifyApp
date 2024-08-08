@@ -95,12 +95,6 @@ class MusicpageState extends State<Musicpage> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: [
-                      Textheading(
-                          widget.songEntities.duration
-                              .toString()
-                              .replaceAll('.', ':'),
-                          20,
-                          FontWeight.w300),
                       const SizedBox(
                         width: 15,
                       ),

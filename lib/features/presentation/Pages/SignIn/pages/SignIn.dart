@@ -26,19 +26,18 @@ class RegisterState extends State<SignIn> {
   Widget build(BuildContext context) {
     return Scaffold(
         body: BlocConsumer<CredentialCubit, CredentialState>(
-            builder: (context, CredentialState) {
-      if (CredentialState is CredentialLoading) {
-        return CircularProgressIndicator();
-      } else if (CredentialState is CredentialSuccess) {
-        return BlocBuilder(builder: (context, AuthState) {
-          if (AuthState is AuthenticatedState) {
-            return HomePage();
+            builder: (context, credentialState) {
+      if (credentialState is CredentialLoading) {
+        return const CircularProgressIndicator();
+      } else if (credentialState is CredentialSuccess) {
+        return BlocBuilder(builder: (context, authState) {
+          if (authState is AuthenticatedState) {
+            return const HomePage();
           } else {
             return bodyWidget();
           }
         });
       }
-
       return bodyWidget();
     }, listener: (context, CredentialState) {
       if (CredentialState is CredentialSuccess) {

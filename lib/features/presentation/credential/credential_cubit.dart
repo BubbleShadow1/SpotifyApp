@@ -6,6 +6,7 @@ import 'package:flutter/widgets.dart';
 import 'package:spotify/features/domain/entities/user_entities.dart';
 import 'package:spotify/features/domain/usecases/forgot_password_usecase.dart';
 import 'package:spotify/features/domain/usecases/get_create_current_user_usecase.dart';
+import 'package:spotify/features/domain/usecases/get_userdatafirebasedatabase.dart';
 import 'package:spotify/features/domain/usecases/googleauthusercase.dart';
 import 'package:spotify/features/domain/usecases/sign_in_usecase.dart';
 import 'package:spotify/features/domain/usecases/sign_up_usecase.dart';
@@ -17,13 +18,15 @@ class CredentialCubit extends Cubit<CredentialState> {
   final ForgotPasswordUseCase forgotPasswordUseCase;
   final GetCreateCurrentUserUseCase getCreateCurrentUserUseCase;
   final Googleauthusercase googleauthusercase;
+  final GetUserdatafirebasedatabase getUserdatafirebasedatabase;
 
   CredentialCubit(
       {required this.signInUseCase,
       required this.signUpUseCase,
       required this.forgotPasswordUseCase,
       required this.getCreateCurrentUserUseCase,
-      required this.googleauthusercase})
+      required this.googleauthusercase,
+      required this.getUserdatafirebasedatabase})
       : super(CredentialInitial());
 
   Future<void> submitSignIn({required user_entities user}) async {
@@ -39,7 +42,7 @@ class CredentialCubit extends Cubit<CredentialState> {
   }
 
   Future<void> submitSignup({required user_entities user}) async {
-   emit(CredentialLoading());
+    emit(CredentialLoading());
     try {
       await signUpUseCase.call(user);
       await getCreateCurrentUserUseCase.call(user);
@@ -69,6 +72,17 @@ class CredentialCubit extends Cubit<CredentialState> {
       emit(CredentialFailure());
     } catch (_) {
       emit(CredentialFailure());
+    }
+  }
+
+  Future<void> getuserdata() async {
+    user_entities user = await getUserdatafirebasedatabase.call();
+    print('user in cubit:${user}');
+
+    try {
+      emit(CredentialGettingSuccessfully(userdata: user));
+        }on SocketException catch (e) {
+      emit(CredentialGettingFailure());
     }
   }
 }

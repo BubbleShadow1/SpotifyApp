@@ -15,6 +15,7 @@ import 'package:spotify/features/domain/usecases/forgot_password_usecase.dart';
 import 'package:spotify/features/domain/usecases/get_create_current_user_usecase.dart';
 import 'package:spotify/features/domain/usecases/get_current_uid_usecase.dart';
 import 'package:spotify/features/domain/usecases/get_new_songs.dart';
+import 'package:spotify/features/domain/usecases/get_userdatafirebasedatabase.dart';
 import 'package:spotify/features/domain/usecases/googleauthusercase.dart';
 import 'package:spotify/features/domain/usecases/is_sign_in_usecase.dart';
 import 'package:spotify/features/domain/usecases/sign_in_usecase.dart';
@@ -43,12 +44,15 @@ Future<void> init() async {
         signInUseCase: sl.call(),
         signUpUseCase: sl.call(),
         getCreateCurrentUserUseCase: sl.call(),
+        getUserdatafirebasedatabase: sl.call(),
       ));
 
   sl.registerLazySingleton<NewsongsCubit>(() => NewsongsCubit());
 
   sl.registerLazySingleton<PlaylistCubit>(() => PlaylistCubit());
 //usecases
+
+  sl.registerLazySingleton<GetUserdatafirebasedatabase>(()=>GetUserdatafirebasedatabase(authRepository: sl.call()));
   sl.registerLazySingleton<GetSongsPlaylistUsecase>(
       () => GetSongsPlaylistUsecase(songRepo: sl.call()));
 

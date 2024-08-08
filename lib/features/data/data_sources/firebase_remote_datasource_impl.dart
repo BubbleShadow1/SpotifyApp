@@ -1,10 +1,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:spotify/features/data/data_sources/firebase_remote_datasource.dart';
 import 'package:spotify/features/data/models/user_model.dart';
 import 'package:spotify/features/domain/entities/user_entities.dart';
-
 
 class FirebaseRemoteDatasourceImpl implements FirebaseRemoteDatasource {
   final FirebaseFirestore firestore;
@@ -28,7 +28,7 @@ class FirebaseRemoteDatasourceImpl implements FirebaseRemoteDatasource {
 
   @override
   Future<void> SignIn(user_entities user) async {
-  await auth.signInWithEmailAndPassword(
+    await auth.signInWithEmailAndPassword(
         email: user.email!, password: user.password!);
   }
 
@@ -52,9 +52,12 @@ class FirebaseRemoteDatasourceImpl implements FirebaseRemoteDatasource {
     final uid = await GetCurrentUID();
     userCollection.doc(uid).get().then((userDoc) {
       if (!userDoc.exists) {
-        final newuser =
-            UserModel(uid: uid, email: user.email, password: user.password)
-                .toDocument();
+        final newuser = UserModel(
+                uid: uid,
+                username: user.username,
+                email: user.email,
+                password: user.password)
+            .toDocument();
 
         if (!userDoc.exists) {
           userCollection.doc(uid).set(newuser);
@@ -64,12 +67,26 @@ class FirebaseRemoteDatasourceImpl implements FirebaseRemoteDatasource {
   }
 
   @override
-  Future<void> googleAuth() async {
-    
-  }
+  Future<void> googleAuth() async {}
 
   @override
   Future<bool> isSigIn() async {
     return auth.currentUser?.uid != null;
+  }
+
+  @override
+  Future<user_entities> getUserdatafirebasedatabase() async {
+    user_entities entity = user_entities();
+    final uid = await GetCurrentUID();
+    DocumentSnapshot<Map<String, dynamic>> snapshot =
+        await FirebaseFirestore.instance.collection('users').doc(uid).get();
+    if (snapshot.exists) {
+      entity = user_entities.fromSnapshot(snapshot);
+      print(entity);
+      return entity;
+    }
+
+  return entity;
+
   }
 }

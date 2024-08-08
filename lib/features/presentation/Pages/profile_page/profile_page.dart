@@ -1,16 +1,17 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_svg/svg.dart';
-import 'package:spotify/common/constant/image_url.dart';
 import 'package:spotify/core/config/assets/appimages.dart';
-import 'package:spotify/core/config/assets/appvectors.dart';
 import 'package:spotify/core/config/theme/appcolors.dart';
 import 'package:spotify/features/domain/entities/song_entities.dart';
+import 'package:spotify/features/domain/entities/user_entities.dart';
 import 'package:spotify/features/presentation/Pages/Home_page/widget/play_list.dart';
 import 'package:spotify/features/presentation/Pages/Music_Page/pages/musicpage.dart';
+import 'package:spotify/features/presentation/credential/credential_cubit.dart';
 import 'package:spotify/features/presentation/cubit/playlist/playlist_cubit.dart';
+import 'package:spotify/injection_container.dart' as di;
 
 class ProfilePage extends StatefulWidget {
   const ProfilePage({super.key});
@@ -22,13 +23,18 @@ class ProfilePage extends StatefulWidget {
 }
 
 class ProfilePageState extends State<ProfilePage> {
+  String? usernamedata;
+  String? emaildata;
+  @override
+  void initState() {
+    super.initState();
+    getUserInfo();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: Column(children: [
-      ProfileUpperPart(),
-      ProfileLowerPart()
-    ]));
+        body: Column(children: [ProfileUpperPart(), ProfileLowerPart()]));
   }
 
   Widget customToolbar() {
@@ -77,10 +83,7 @@ class ProfilePageState extends State<ProfilePage> {
           alignment: Alignment.topLeft,
           child: Image.asset(appimages.ellipseprofile),
         ),
-        Padding(
-            padding:
-                EdgeInsets.only(top: MediaQuery.of(context).size.height / 13),
-            child: belowtoolbar('username', 'useremail@gmail.com')),
+        userfun(),
       ],
     );
   }
@@ -114,11 +117,11 @@ class ProfilePageState extends State<ProfilePage> {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            following('232'),
+            following('0'),
             SizedBox(
               width: MediaQuery.of(context).size.width / 7,
             ),
-            followers('243')
+            followers('0')
           ],
         ));
   }
@@ -129,11 +132,11 @@ class ProfilePageState extends State<ProfilePage> {
         children: [
           Text(
             followingcount,
-            style: const TextStyle(fontSize: 30, fontWeight: FontWeight.w600),
+            style: const TextStyle(fontSize: 20, fontWeight: FontWeight.w600),
           ),
           const Text(
             'Following',
-            style: TextStyle(fontSize: 20, fontWeight: FontWeight.w300),
+            style: TextStyle(fontSize: 15, fontWeight: FontWeight.w300),
           )
         ],
       ),
@@ -146,11 +149,11 @@ class ProfilePageState extends State<ProfilePage> {
         children: [
           Text(
             followerscount,
-            style: const TextStyle(fontSize: 30, fontWeight: FontWeight.w600),
+            style: const TextStyle(fontSize: 20, fontWeight: FontWeight.w600),
           ),
           const Text(
             'Followers',
-            style: TextStyle(fontSize: 20, fontWeight: FontWeight.w300),
+            style: TextStyle(fontSize: 15, fontWeight: FontWeight.w300),
           )
         ],
       ),
@@ -163,7 +166,7 @@ class ProfilePageState extends State<ProfilePage> {
       borderRadius: const BorderRadius.only(
           bottomLeft: Radius.circular(70), bottomRight: Radius.circular(70)),
       child: Container(
-        height: MediaQuery.of(context).size.height / 2.3,
+        height: MediaQuery.of(context).size.height / 2.1,
         decoration: const BoxDecoration(
           shape: BoxShape.rectangle,
           borderRadius: BorderRadius.only(
@@ -186,14 +189,75 @@ class ProfilePageState extends State<ProfilePage> {
   }
 
   Widget ProfileLowerPart() {
-    return Expanded(child: Column(children: [
-      SizedBox(height: 30,),
-      Text('PUBLIC PLAYLISTS',style: TextStyle(fontSize: 20,fontWeight: FontWeight.w400),),
-      PlayList(),
+    return Expanded(
+        child: Column(
+      children: [
+        const SizedBox(
+          height: 30,
+        ),
+        const Text(
+          'PUBLIC PLAYLISTS',
+          style: TextStyle(fontSize: 20, fontWeight: FontWeight.w400),
+        ),
+        PlayList(),
+      ],
+    ));
+  }
+// not working/............
+  // Widget userdata() {
+  //   return BlocProvider(
+  //     create: (_) => di.sl<CredentialCubit>()..getUserdatafirebasedatabase,
+  //     child: BlocBuilder<CredentialCubit, CredentialState>(
+  //         builder: (context, State) {
+  //       if (State is CredentialGettingSuccessfully) {
+  //         return userfun(State.userdata);
+  //       } else if (State is CredentialGettingFailure) {
+  //         print('Data is not getting ');
+  //       }
+  //       return const Text('No data');
+  //     }),
+  //   );
+  // }
 
-
-    ],));
+  Widget userfun() {
+    getUserInfo();
+    return FutureBuilder<void>(
+        future: getUserInfo(),
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.done) {
+            return Padding(
+                padding: EdgeInsets.only(
+                    top: MediaQuery.of(context).size.height / 13),
+                child: belowtoolbar(usernamedata!, emaildata!));
+          } else if (snapshot.hasError) {
+            print('error occured in getting data:${snapshot.error}');
+            return const Text('Error occured in getting data.');
+          }
+          return const CircularProgressIndicator();
+        });
   }
 
- 
+  Future<void> getUserInfo() async {
+    User? user = FirebaseAuth.instance.currentUser;
+
+    if (user != null) {
+      String uid = user.uid;
+      String email = user.email!;
+
+      DocumentSnapshot<Map<String, dynamic>> snapshot =
+          await FirebaseFirestore.instance.collection('users').doc(uid).get();
+
+      if (snapshot.exists) {
+        Map<String, dynamic> userData = snapshot.data()!;
+        usernamedata = userData['username'];
+        emaildata = userData['email'];
+        // user_entities user = user_entities.fromSnapshot(snapshot);
+        print('User email: $emaildata, username: $usernamedata');
+      } else {
+        print('User data not found in Firestore');
+      }
+    } else {
+      print('User is not signed in');
+    }
+  }
 }
