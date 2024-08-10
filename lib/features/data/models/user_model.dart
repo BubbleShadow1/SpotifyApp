@@ -7,7 +7,11 @@ class UserModel extends user_entities {
       final String? uid,
       final String? email,
       final String? password})
-      : super(uid: uid, username: username, email: email, password: password);
+      : super(
+            uid: uid,
+            username: username,
+            email: email,
+            password: password);
 
   factory UserModel.fromSnapshot(DocumentSnapshot snapshot) {
     return UserModel(
@@ -22,9 +26,7 @@ class UserModel extends user_entities {
       "uid": uid,
       "email": email,
       "password": password,
-      "username": username
+      "username": username,
     };
   }
-
-  
 }

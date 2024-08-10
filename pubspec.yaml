@@ -81,6 +81,8 @@ flutter:
     - assets/images/ellipseprofile.png
     - assets/images/profilepic.png
     - assets/images/imgforfavpage.png
+    - assets/images/fav.png
+    - assets/images/notfav.png
 
 
 

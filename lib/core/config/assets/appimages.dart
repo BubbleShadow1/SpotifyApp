@@ -30,4 +30,6 @@ class appimages {
   static String profilepic = '${basepath}profilepic${extension}';
   static String ellipseprofile = '${basepath}ellipseprofile${extension}';
   static String imgforfavpage = '${basepath}imgforfavpage${extension}';
+  static String fav = '${basepath}fav${extension}';
+  static String notfav = '${basepath}notfav${extension}';
 }

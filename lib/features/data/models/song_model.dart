@@ -1,26 +1,28 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:spotify/features/domain/entities/song_entities.dart';
+import 'package:spotify/features/domain/usecases/Playlist/isFav.dart';
 
-class SongModel extends SongEntities {
-  SongModel({
-    required String title,
-    required String artist,
-    required num duration,
-    required Timestamp releasedate,
-  }) : super(
-          title: title,
-          artist: artist,
-          duration: duration,
-          releasedate: releasedate,
-        );
+class SongModel {
+  String? title;
+  String? artist;
+  num? duration;
+  Timestamp? releasedate;
+  bool? isfav;
+  String? songId;
 
-  factory SongModel.fromSnapshot(DocumentSnapshot snapshot) {
-    return SongModel(
-        title: snapshot.get('title'),
-        artist: snapshot.get('artist'),
-        duration: snapshot.get('duration'),
-        releasedate: snapshot.get('releasedate'));
-  }
+  SongModel(
+      {required this.title,
+      required this.artist,
+      required this.duration,
+      required this.releasedate,
+      required this.isfav,required this.songId });
+
+  // factory SongModel.fromSnapshot(DocumentSnapshot snapshot) {
+  //   return SongModel(title: snapshot.get('title'),
+  //       artist: snapshot.get('artist'),
+  //       duration: snapshot.get('duration'),
+  //       releasedate: snapshot.get('releasedate'));
+  // }
 
   Map<String, dynamic> toDocument() {
     return {
@@ -31,21 +33,20 @@ class SongModel extends SongEntities {
     };
   }
 
-SongModel.fromJson(Map<String, dynamic> data)
-  : super(
-      title: data['title'],
-      artist: data['artist'],
-      duration: data['duration'],
-      releasedate: data['releasedate'] as Timestamp, 
-    );
-
+  SongModel.fromJson(Map<String, dynamic> data) {
+    title = data['title'];
+    artist = data['artist'];
+    duration = data['duration'];
+    releasedate = data['releasedate'] as Timestamp;
+  }
 
   static SongEntities toEntity(SongModel songModel) {
     return SongEntities(
-      title: songModel.title,
-      artist: songModel.artist,
-      duration: songModel.duration,
-      releasedate: songModel.releasedate,
-    );
+        title: songModel.title!,
+        artist: songModel.artist!,
+        duration: songModel.duration!,
+        releasedate: songModel.releasedate!,
+        isfav: songModel.isfav!,
+        songId: songModel.songId!);
   }
 }

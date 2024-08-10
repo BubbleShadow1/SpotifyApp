@@ -5,6 +5,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:spotify/core/config/assets/appimages.dart';
 import 'package:spotify/core/config/assets/appvectors.dart';
 import 'package:spotify/features/presentation/Pages/Home_page/Home_page.dart';
+import 'package:spotify/features/presentation/Pages/Home_page/widget/fav_button.dart';
 import 'package:spotify/features/presentation/Pages/Music_Page/pages/musicpage.dart';
 import 'package:spotify/features/presentation/cubit/new_songs/newsongs_cubit.dart';
 import 'package:spotify/features/presentation/cubit/playlist/playlist_cubit.dart';
@@ -43,10 +44,16 @@ class PlayList extends StatelessWidget {
                     Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (BuildContext context) => Musicpage(songEntities: songs[index],)));
+                            builder: (BuildContext context) => Musicpage(
+                                  songEntities: songs[index],
+                                )));
                   },
-                  child: customlist(songs[index].title, songs[index].artist,
-                      songs[index].duration, context));
+                  child: customlist(
+                      songs[index].title,
+                      songs[index].artist,
+                      songs[index].duration,
+                      songs[index].isfav,songs[index],
+                      context));
             },
             separatorBuilder: (context, index) => const SizedBox(
                   height: 10,
@@ -54,8 +61,8 @@ class PlayList extends StatelessWidget {
             itemCount: songs.length));
   }
 
-  Widget customlist(
-      String songname, String artistname, num duration, BuildContext context) {
+  Widget customlist(String songname, String artistname, num duration, bool fav,SongEntities songEntities,
+      BuildContext context) {
     return Expanded(
       child: Row(children: [
         const SizedBox(
@@ -94,7 +101,7 @@ class PlayList extends StatelessWidget {
                 const SizedBox(
                   width: 15,
                 ),
-                SvgPicture.asset(appvectors.heart),
+             FavButton(songEntities: songEntities)
               ],
             ))
       ]),

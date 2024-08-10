@@ -10,7 +10,9 @@ import 'package:spotify/features/data/repository/firebase_repo_impl.dart';
 import 'package:spotify/features/data/repository/song/song_repo_impl.dart';
 import 'package:spotify/features/domain/repository/auth/auth_repo.dart';
 import 'package:spotify/features/domain/repository/songs/song_repo.dart';
+import 'package:spotify/features/domain/usecases/Playlist/addremovesongsfav.dart';
 import 'package:spotify/features/domain/usecases/Playlist/get_songs_playlist.dart';
+import 'package:spotify/features/domain/usecases/Playlist/isFav.dart';
 import 'package:spotify/features/domain/usecases/forgot_password_usecase.dart';
 import 'package:spotify/features/domain/usecases/get_create_current_user_usecase.dart';
 import 'package:spotify/features/domain/usecases/get_current_uid_usecase.dart';
@@ -21,7 +23,6 @@ import 'package:spotify/features/domain/usecases/is_sign_in_usecase.dart';
 import 'package:spotify/features/domain/usecases/sign_in_usecase.dart';
 import 'package:spotify/features/domain/usecases/sign_out_usecase.dart';
 import 'package:spotify/features/domain/usecases/sign_up_usecase.dart';
-import 'package:spotify/features/presentation/Pages/SignIn/pages/SignIn.dart';
 import 'package:spotify/features/presentation/credential/credential_cubit.dart';
 import 'package:spotify/features/presentation/cubit/auth/auth_cubit.dart';
 import 'package:spotify/features/presentation/cubit/new_songs/newsongs_cubit.dart';
@@ -81,6 +82,11 @@ Future<void> init() async {
 
   sl.registerLazySingleton<Googleauthusercase>(
       () => Googleauthusercase(repository: sl.call()));
+
+sl.registerLazySingleton<Addremovesongsfav>(()=>Addremovesongsfav(songRepo:sl.call()));
+
+sl.registerLazySingleton<Isfav>(()=>Isfav(songRepo: sl.call()));
+
 
   sl.registerLazySingleton<AuthRepository>(
       () => FirebaseRepoImpl(remoteDatasource: sl.call()));

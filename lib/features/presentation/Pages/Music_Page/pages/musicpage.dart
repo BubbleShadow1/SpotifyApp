@@ -8,6 +8,7 @@ import 'package:spotify/core/config/assets/appvectors.dart';
 import 'package:spotify/core/config/theme/appcolors.dart';
 import 'package:spotify/features/domain/entities/song_entities.dart';
 import 'package:spotify/features/presentation/Pages/Home_page/Home_page.dart';
+import 'package:spotify/features/presentation/Pages/Home_page/widget/fav_button.dart';
 import 'package:spotify/features/presentation/cubit/music_page/musicpage_cubit.dart';
 
 class Musicpage extends StatefulWidget {
@@ -86,9 +87,9 @@ class MusicpageState extends State<Musicpage> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Textheading(
-                            widget.songEntities.title, 28, FontWeight.bold),
+                            widget.songEntities.title!, 28, FontWeight.bold),
                         Textheading(
-                            widget.songEntities.artist, 24, FontWeight.w500)
+                            widget.songEntities.artist!, 24, FontWeight.w500)
                       ],
                     ),
                   ]),
@@ -98,10 +99,7 @@ class MusicpageState extends State<Musicpage> {
                       const SizedBox(
                         width: 15,
                       ),
-                      GestureDetector(
-                        onTap: () {},
-                        child: SvgPicture.asset(appvectors.heart),
-                      ),
+                     FavButton(songEntities: widget.songEntities)
                     ],
                   ),
                 ])));

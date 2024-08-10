@@ -13,4 +13,5 @@ abstract class FirebaseRemoteDatasource {
   Future<void> getcreatecurrentuser(user_entities user);
   Future<String> GetCurrentUID();
   Future<user_entities> getUserdatafirebasedatabase();
+  
 }

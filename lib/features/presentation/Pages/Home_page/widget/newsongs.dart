@@ -49,9 +49,9 @@ class Newsongs extends StatelessWidget {
                    
                    ])),
                      const SizedBox(height: 10,),
-                   Text(songs[index].title,style: const TextStyle(fontSize: 16,fontWeight: FontWeight.w600),),
+                   Text(songs[index].title!,style: const TextStyle(fontSize: 16,fontWeight: FontWeight.w600),),
                    const SizedBox(height: 5,),
-                   Text(songs[index].artist,style: const TextStyle(fontSize: 12,fontWeight: FontWeight.w400),),
+                   Text(songs[index].artist!,style: const TextStyle(fontSize: 12,fontWeight: FontWeight.w400),),
 
               
             ],
