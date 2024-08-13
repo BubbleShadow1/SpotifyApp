@@ -52,8 +52,8 @@ class Newsongs extends StatelessWidget {
                    Text(songs[index].title!,style: const TextStyle(fontSize: 16,fontWeight: FontWeight.w600),),
                    const SizedBox(height: 5,),
                    Text(songs[index].artist!,style: const TextStyle(fontSize: 12,fontWeight: FontWeight.w400),),
-
-              
+                
+     
             ],
           ));
           print('Complete URL: ${ImageUrl.firestorage}${songs[index].artist}-${songs[index].title}.jpg${ImageUrl.altmedia}');

@@ -3,15 +3,12 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:spotify/core/config/assets/appimages.dart';
-import 'package:spotify/core/config/theme/appcolors.dart';
-import 'package:spotify/features/domain/entities/song_entities.dart';
-import 'package:spotify/features/domain/entities/user_entities.dart';
 import 'package:spotify/features/presentation/Pages/Home_page/widget/play_list.dart';
-import 'package:spotify/features/presentation/Pages/Music_Page/pages/musicpage.dart';
+import 'package:spotify/features/presentation/Pages/registersignin/pages/registerSignInPage.dart';
 import 'package:spotify/features/presentation/credential/credential_cubit.dart';
-import 'package:spotify/features/presentation/cubit/playlist/playlist_cubit.dart';
-import 'package:spotify/injection_container.dart' as di;
+import 'package:spotify/features/presentation/cubit/auth/auth_cubit.dart';
 
 class ProfilePage extends StatefulWidget {
   const ProfilePage({super.key});
@@ -23,6 +20,7 @@ class ProfilePage extends StatefulWidget {
 }
 
 class ProfilePageState extends State<ProfilePage> {
+  bool menu = false;
   String? usernamedata;
   String? emaildata;
   @override
@@ -40,25 +38,25 @@ class ProfilePageState extends State<ProfilePage> {
   Widget customToolbar() {
     return Stack(
       children: [
-        Align(
-            alignment: Alignment.topLeft,
-            child: GestureDetector(
-              onTap: () {},
-              child: Padding(
-                  padding: const EdgeInsets.only(top: 20, left: 20),
-                  child: Container(
-                    decoration: BoxDecoration(
-                        shape: BoxShape.circle,
-                        color: Theme.of(context).brightness == Brightness.light
-                            ? appcolors.greycolor
-                            : appcolors.secondarycolor),
-                    child: Image.asset(
-                        color: Theme.of(context).brightness == Brightness.light
-                            ? const Color.fromARGB(255, 0, 0, 0)
-                            : const Color.fromARGB(255, 0, 0, 0),
-                        appimages.leftbackbtn),
-                  )),
-            )),
+        // Align(
+        //     alignment: Alignment.topLeft,
+        //     child: GestureDetector(
+        //       onTap: () {},
+        //       child: Padding(
+        //           padding: const EdgeInsets.only(top: 20, left: 20),
+        //           child: Container(
+        //             decoration: BoxDecoration(
+        //                 shape: BoxShape.circle,
+        //                 color: Theme.of(context).brightness == Brightness.light
+        //                     ? appcolors.greycolor
+        //                     : appcolors.secondarycolor),
+        //             child: Image.asset(
+        //                 color: Theme.of(context).brightness == Brightness.light
+        //                     ? const Color.fromARGB(255, 0, 0, 0)
+        //                     : const Color.fromARGB(255, 0, 0, 0),
+        //                 appimages.leftbackbtn),
+        //           )),
+        //     )),
         const Align(
             alignment: Alignment.center,
             child: Padding(
@@ -69,15 +67,9 @@ class ProfilePageState extends State<ProfilePage> {
                     fontWeight: FontWeight.bold,
                   )),
             )),
-        Align(
-          alignment: Alignment.topRight,
-          child: GestureDetector(
-            onTap: () {},
-            child: Padding(
-              padding: const EdgeInsets.only(top: 20, right: 20),
-              child: Image.asset(appimages.menu),
-            ),
-          ),
+        Padding(
+          padding: const EdgeInsets.only(top: 10),
+          child: Align(alignment: Alignment.topRight, child: menubarhere()),
         ),
         Align(
           alignment: Alignment.topLeft,
@@ -87,6 +79,18 @@ class ProfilePageState extends State<ProfilePage> {
       ],
     );
   }
+
+  Widget menubarhere() {
+    return PopupMenuButton(onSelected: (value) {
+          logOut();
+          Navigator.pushReplacement(
+        context, MaterialPageRoute(builder: (context) => const Registersigninpage()));
+    }, itemBuilder: (BuildContext context) {
+      return [
+        const PopupMenuItem(value: 1,child: Text('logOut')),
+      ];
+    });
+   }
 
   Widget belowtoolbar(String usernam, String useremail) {
     return Column(
@@ -220,7 +224,6 @@ class ProfilePageState extends State<ProfilePage> {
   // }
 
   Widget userfun() {
-    getUserInfo();
     return FutureBuilder<void>(
         future: getUserInfo(),
         builder: (context, snapshot) {
@@ -228,12 +231,15 @@ class ProfilePageState extends State<ProfilePage> {
             return Padding(
                 padding: EdgeInsets.only(
                     top: MediaQuery.of(context).size.height / 13),
-                child: belowtoolbar(usernamedata!, emaildata!));
+                child: belowtoolbar(
+                    usernamedata?.toUpperCase() ??
+                        'Data is not present in server',
+                    emaildata ?? 'Data is not present in server'));
           } else if (snapshot.hasError) {
             print('error occured in getting data:${snapshot.error}');
             return const Text('Error occured in getting data.');
           }
-          return const CircularProgressIndicator();
+          return const Center(child: CircularProgressIndicator());
         });
   }
 
@@ -259,5 +265,9 @@ class ProfilePageState extends State<ProfilePage> {
     } else {
       print('User is not signed in');
     }
+  }
+
+  Future<void> logOut() async {
+    await BlocProvider.of<AuthCubit>(context).loggedout();
   }
 }

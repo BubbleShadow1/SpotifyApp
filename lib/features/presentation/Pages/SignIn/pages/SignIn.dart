@@ -180,8 +180,8 @@ class RegisterState extends State<SignIn> {
               BasicAppButton('Sign In', () async {
                 // final AuthUseCase _authUseCase = AuthUseCase();
                 // final result = await _authUseCase.signIn(_email.text.toString(), _password.text.toString());
-
-                SubmitSignIn();
+                
+                await SubmitSignIn();
                 Navigator.pushReplacement(context,
                     MaterialPageRoute(builder: (context) {
                   return HomePage(); 
@@ -194,7 +194,7 @@ class RegisterState extends State<SignIn> {
     );
   }
 
-  void SubmitSignIn() {
+  Future<void> SubmitSignIn() async{
     if (_email.text.isEmpty) {
       const SnackBar(content: Text('email is empty'));
       return;
