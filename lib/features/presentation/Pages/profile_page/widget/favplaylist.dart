@@ -1,24 +1,31 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:spotify/core/config/assets/appimages.dart';
-import 'package:spotify/core/config/assets/appvectors.dart';
-import 'package:spotify/features/presentation/Pages/Home_page/Home_page.dart';
-import 'package:spotify/features/presentation/Pages/Home_page/widget/fav_button.dart';
 import 'package:spotify/features/presentation/Pages/Music_Page/pages/musicpage.dart';
-import 'package:spotify/features/presentation/cubit/new_songs/newsongs_cubit.dart';
 import 'package:spotify/features/presentation/cubit/playlist/playlist_cubit.dart';
-
 import '../../../../domain/entities/song_entities.dart';
+import '../../../cubit/fav_button/fav_cubit.dart';
 
-class PlayList extends StatelessWidget {
+class Favplaylist extends StatefulWidget {
+  const Favplaylist({super.key});
+  @override
+  State<StatefulWidget> createState() {
+    return Favplayliststate();
+  }
+}
+
+class Favplayliststate extends State<Favplaylist> {
+   void removeItem(int index, List<SongEntities> songentities) {
+    setState(() {
+      songentities.removeAt(index);
+    });
+  }
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (_) => PlaylistCubit()..getsongsPlaylist(),
       child:
-          BlocBuilder<PlaylistCubit, PlaylistState>(builder: (context, state) {
+      BlocBuilder<PlaylistCubit, PlaylistState>(builder: (context, state) {
         if (state is PlaylistLoading) {
           return Container(
             alignment: Alignment.center,
@@ -26,8 +33,16 @@ class PlayList extends StatelessWidget {
           );
         }
         if (state is PlaylistLoaded) {
-          return _songs(state.songs);
+          List<SongEntities> songslist = state.songs;
+          List<SongEntities> favlist = [];
+          for (int i = 0; i < state.songs.length; i++) {
+            if (songslist[i].isfav) {
+              favlist.add(songslist[i]);
+            }
+          }
+          return _songs(favlist);
         }
+
         return Container(
           child: const Text('No data is Fetching '),
         );
@@ -49,11 +64,14 @@ class PlayList extends StatelessWidget {
                                 )));
                   },
                   child: customlist(
+                      songs,
                       songs[index].title,
                       songs[index].artist,
                       songs[index].duration,
-                      songs[index].isfav,songs[index],
-                      context));
+                      songs[index].isfav,
+                      songs[index],
+                      context,
+                      index));
             },
             separatorBuilder: (context, index) => const SizedBox(
                   height: 10,
@@ -61,8 +79,17 @@ class PlayList extends StatelessWidget {
             itemCount: songs.length));
   }
 
-  Widget customlist(String songname, String artistname, num duration, bool fav,SongEntities songEntities,
-      BuildContext context) {
+ 
+
+  Widget customlist(
+      List<SongEntities> songlist,
+      String songname,
+      String artistname,
+      num duration,
+      bool fav,
+      SongEntities songEntities,
+      BuildContext context,
+      int index) {
     return Expanded(
       child: Row(children: [
         const SizedBox(
@@ -85,7 +112,7 @@ class PlayList extends StatelessWidget {
             child: Row(children: [
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
-                children: [ 
+                children: [
                   Textheading(songname, 18, FontWeight.bold),
                   Textheading(artistname, 15, FontWeight.w400)
                 ],
@@ -101,7 +128,7 @@ class PlayList extends StatelessWidget {
                 const SizedBox(
                   width: 15,
                 ),
-             FavButton(songEntities: songEntities)
+                fav_buttonoffavlist(songlist, songEntities, index)
               ],
             ))
       ]),
@@ -115,6 +142,33 @@ class PlayList extends StatelessWidget {
         fontSize: height,
         fontWeight: fontweight,
       ),
+    );
+  }
+
+  Widget fav_buttonoffavlist(
+      List<SongEntities> songentities, SongEntities songEntities, index) {
+    return BlocProvider(
+      create: (context) => FavCubit(),
+      child: BlocBuilder<FavCubit, FavState>(builder: (context, state) {
+        if (state is favstateInitial) {
+          return IconButton(
+              onPressed: () {
+                context.read<FavCubit>().favbuttonupdated(songEntities.songId);
+                removeItem(index, songentities);
+              },
+              icon: Image.asset(
+                  songEntities.isfav ? appimages.fav : appimages.notfav));
+        } else if (state is favstateupdated) {
+          return IconButton(
+            onPressed: () {
+              context.read<FavCubit>().favbuttonupdated(songEntities.songId);
+              removeItem(index, songentities);
+            },
+            icon: Image.asset(state.isfav ? appimages.fav : appimages.notfav),
+          );
+        }
+        return Container();
+      }),
     );
   }
 }

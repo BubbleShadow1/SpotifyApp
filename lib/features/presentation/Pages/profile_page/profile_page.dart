@@ -6,6 +6,7 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:spotify/core/config/assets/appimages.dart';
 import 'package:spotify/features/presentation/Pages/Home_page/widget/play_list.dart';
+import 'package:spotify/features/presentation/Pages/profile_page/widget/favplaylist.dart';
 import 'package:spotify/features/presentation/Pages/registersignin/pages/registerSignInPage.dart';
 import 'package:spotify/features/presentation/credential/credential_cubit.dart';
 import 'package:spotify/features/presentation/cubit/auth/auth_cubit.dart';
@@ -193,20 +194,21 @@ class ProfilePageState extends State<ProfilePage> {
   }
 
   Widget ProfileLowerPart() {
-    return Expanded(
+    return const Expanded(
         child: Column(
       children: [
-        const SizedBox(
+        SizedBox(
           height: 30,
         ),
-        const Text(
-          'PUBLIC PLAYLISTS',
+        Text(
+          'FAVOURITE PLAYLISTS',
           style: TextStyle(fontSize: 20, fontWeight: FontWeight.w400),
         ),
-        PlayList(),
+        Favplaylist(),
       ],
     ));
   }
+
 // not working/............
   // Widget userdata() {
   //   return BlocProvider(
@@ -222,6 +224,7 @@ class ProfilePageState extends State<ProfilePage> {
   //     }),
   //   );
   // }
+
 
   Widget userfun() {
     return FutureBuilder<void>(

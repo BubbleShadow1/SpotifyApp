@@ -203,7 +203,8 @@ class RegisterState extends State<SignIn> {
       const SnackBar(content: Text('password is empty'));
       return;
     }
+    
     BlocProvider.of<CredentialCubit>(context).submitSignIn(
-        user: user_entities(email: _email.text, password: _password.text));
+        user: user_entities(email: _email.text, password: _password.text)); 
   }
 }

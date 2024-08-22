@@ -37,25 +37,25 @@ class Newsongs extends StatelessWidget {
           return Padding(padding:const EdgeInsets.only(left: 10) ,child:  Column(crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Expanded(
-                   child:Stack(children: [ Image.network(fit: BoxFit.cover,'${ImageUrl.firestorage}${songs[index].artist}-${songs[index].title}.jpg${ImageUrl.altmedia}'),   
-                    Positioned(
+                   child:Stack(children: [ Image.network(fit: BoxFit.cover,'${ImageUrl.firestorage}${songs[index].artist}-${songs[index].title}.jpg${ImageUrl.altmedia}'),
+                   Positioned(
                       right: 0,
                       bottom: 0,
                       child: Container(
                         height: 40,
                         width: 40,
                         decoration: BoxDecoration(shape: BoxShape.circle,color:Theme.of(context).brightness==Brightness.light ? appcolors.greycolor:appcolors.secondarycolor, 
-                        ),child: Image.asset(appimages.playbtn,color:Theme.of(context).brightness==Brightness.light ? const Color.fromARGB(255, 228, 228, 228):appcolors.greycolor ,),))
-                   
-                   ])),
+                        ),child: Image.asset(appimages.playbtn,color:Theme.of(context).brightness==Brightness.light ? const Color.fromARGB(255, 228, 228, 228):appcolors.greycolor ,),),),
+                        ])),
                      const SizedBox(height: 10,),
-                   Text(songs[index].title!,style: const TextStyle(fontSize: 16,fontWeight: FontWeight.w600),),
+                   Text(songs[index].title,style: const TextStyle(fontSize: 16,fontWeight: FontWeight.w600),),
                    const SizedBox(height: 5,),
-                   Text(songs[index].artist!,style: const TextStyle(fontSize: 12,fontWeight: FontWeight.w400),),
+                   Text(songs[index].artist,style: const TextStyle(fontSize: 12,fontWeight: FontWeight.w400),),
                 
      
             ],
           ));
+
           print('Complete URL: ${ImageUrl.firestorage}${songs[index].artist}-${songs[index].title}.jpg${ImageUrl.altmedia}');
 
         },
